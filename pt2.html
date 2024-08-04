@@ -1,0 +1,109 @@
+<templete>
+    <div class="login_center">
+        <b-container fluid class="text-center">
+            <b-row class="m-auto" style="width: 415px">
+                <nuxt-link to="">
+                    <b-col cols="12" class="d-flex col-12 align-items-center justify-content-center mb-3">
+                        <<h1 class="title">Andy's Tester?</h1>
+                    </b-col>
+                </nuxt-link>
+                <b-col cols="12">
+                    <el-form :model="formLogin" ref="formLogin" :rules="rules">
+                        <el-form-item prop="codeID">
+                            <el-input placeholder="Email or Phone Number" v-model="formLogin.codeID">
+                                <i slot="prefix" class="el-input__icon el-icon-user"></i>
+                            </el-input>
+                        </el-form-item>
+                        <el-form-item prop="password">
+                            <el-input placeholder="Password" v-model="formLofin.password" show-password>
+                                <i slot="prefix" class="el-input__ el-icon-lock"></i>
+                            </el-input>  
+                        </el-form-item>
+                    </el-form>
+                </b-col>
+                <b-col class="d-flex col-12 align-items-between justify-content-between mb-2">
+                    <el-checkbox v-model="checked" style="font-size: 1rem"></el-checkbox>
+                    <p class="p_label>"></p>
+                </b-col>
+                <b-col cols="12">
+                    <el-button type="primary" class="w-100" @click=""></el-button>
+                </b-col>
+                <b-col class="col-12 mt-3 text-right">
+                    <nuxt-link to="">
+                        <p class="p_label"></p>
+                    </nuxt-link>
+                </b-col>
+            </b-row>
+        </b-container>
+    </div>
+</templete>
+
+<script>
+import { mapActions, MapGetters } from "vuex";
+import _ from "lodash";
+export default {
+    middleware({ store, redirect }) {
+        const site = store.getters["auth-site/siteMe"];
+        if (!_.isEmpty(site)) {
+            return redirect()
+        }
+    },
+    data() {
+        return {
+            formLogin: {
+            codeID:"",
+            password:"",
+            },
+            rules: {
+                codeID: [
+                    {
+                        required: true,
+                        message: "please enter your email or phone number",
+                        trigger: "blur",
+                    },
+                ],
+                password: [
+                    {
+                        required: true,
+                        message: "please enter your password",
+                        trigger: "blur",
+                    },
+                ],
+            },
+            checked: false,
+        };
+    },
+    methods: {
+        ...mapActions({
+            login: "auth-site/AUTH_SITE_LOGIN",
+            fetchCurrentUser: "auth-site/GET_SITE_ME",
+        }),
+    },
+};
+</script>
+
+<style>
+    .login_container {
+        margin: 0 auto;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .title {
+        font-family: "Quicksand", "Source Sans Pro", -apple-system, BlinkMacSystemFont,
+            "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        display: block;
+        font-weight: 300;
+        font-size: 3rem;
+        color: #35495e;
+        letter-spacing: 1px;
+    }
+    
+    .p_label {
+        font-size: 14px;
+    }
+    </style>
+      
